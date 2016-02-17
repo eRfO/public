@@ -129,6 +129,16 @@ public class RetrofitBeanDefinitionRegistrar implements ImportBeanDefinitionRegi
 	}
 
 	/**
+	 * Returns whether we should consider nested services, i.e. service interface definitions nested in other
+	 * classes.
+	 * 
+	 * @return {@literal true} if the container should look for nested service interface definitions.
+	 */
+	public boolean shouldConsiderNestedServices() {
+		return false;
+	}		
+	
+	/**
 	 * Return the {@link TypeFilter}s to define which types to exclude when scanning for repositories. Default
 	 * implementation returns an empty collection.
 	 * 
@@ -148,16 +158,6 @@ public class RetrofitBeanDefinitionRegistrar implements ImportBeanDefinitionRegi
 		return Collections.emptySet();
 	}
 
-	/**
-	 * Returns whether we should consider nested services, i.e. service interface definitions nested in other
-	 * classes.
-	 * 
-	 * @return {@literal true} if the container should look for nested service interface definitions.
-	 */
-	public boolean shouldConsiderNestedServices() {
-		return false;
-	}	
-	
     /**
      * @param registry, the {@link BeanDefinitionRegistry} to be used to register the
      *          {@link Converter.Factory}.
