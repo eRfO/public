@@ -29,7 +29,7 @@ public class SkebbyComponentTest extends CamelTestSupport {
 	public void testSkebby() throws Exception {
 		MockEndpoint mock = getMockEndpoint("mock:result");
 		mock.expectedMinimumMessageCount(1);
-		sendBody("direct:skebbytest", "Camel component: Dave sto spendendo tutti i tuoi soldi su Skebby! ahah");
+		sendBody("direct:skebbytest", "Hello, world!");
 		assertMockEndpointsSatisfied();
 	}
 
@@ -38,7 +38,7 @@ public class SkebbyComponentTest extends CamelTestSupport {
 		return new RouteBuilder() {
 			@Override
 			public void configure() {
-				from("direct:skebbytest").to("skebby:?username=mitobit&password=Sms1234!&recipients=00393295340858&recipients=+393332826153").process(new Processor() {
+				from("direct:skebbytest").to("skebby:?username=test&password=test&recipients=000000000000").process(new Processor() {
 					@Override
 					public void process(Exchange exchange) throws Exception {
 						log.debug("", exchange);
