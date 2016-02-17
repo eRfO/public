@@ -46,6 +46,7 @@ import retrofit2.Converter;
  */
 public class RetrofitBeanDefinitionRegistrar implements ImportBeanDefinitionRegistrar, ResourceLoaderAware, EnvironmentAware {
 
+	private static final String CONVERTER_FACTORY_REF = "converterFactoryRef";
 	private ResourceLoader resourceLoader;
 	private Environment environment;	
 	
@@ -59,7 +60,7 @@ public class RetrofitBeanDefinitionRegistrar implements ImportBeanDefinitionRegi
 		
 		Map<String, Object> annotationAttributes = importingClassMetadata.getAnnotationAttributes(EnableRetrofitServices.class.getName());
 		String[] basePackages = (String[]) annotationAttributes.get("basePackages");
-		String globalConverterFactoryRef = (String) annotationAttributes.get("converterFactoryRef");
+		String globalConverterFactoryRef = (String) annotationAttributes.get(CONVERTER_FACTORY_REF);
 		if (basePackages == null || basePackages.length == 0) {
 			basePackages = (String[]) annotationAttributes.get("value");
 		}
@@ -84,7 +85,7 @@ public class RetrofitBeanDefinitionRegistrar implements ImportBeanDefinitionRegi
 			Map<String, Object> serviceAttributes = scanneDefinition.getMetadata().getAnnotationAttributes(RetrofitService.class.getName());
 			Map<String, Object> qualifierAttributes = scanneDefinition.getMetadata().getAnnotationAttributes(Qualifier.class.getName());
 			// check converter factory
-			String converterFactoryRef = (String) serviceAttributes.get("converterFactoryRef");
+			String converterFactoryRef = (String) serviceAttributes.get(CONVERTER_FACTORY_REF);
 			if (StringUtils.isEmpty(converterFactoryRef)) {
 				converterFactoryRef = globalConverterFactoryRef;
 			}
