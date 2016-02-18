@@ -29,7 +29,7 @@ public class NexmoComponentTest extends CamelTestSupport {
 	public void testNexmo() throws Exception {
 		MockEndpoint mock = getMockEndpoint("mock:result");
 		mock.expectedMinimumMessageCount(1);
-		sendBody("direct:nexmotest", "Camel component: Dave sto spendendo tutti i tuoi soldi su Nexmo! ahah");
+		sendBody("direct:nexmotest", "Nexmo test!");
 		assertMockEndpointsSatisfied();
 	}
 
@@ -38,7 +38,7 @@ public class NexmoComponentTest extends CamelTestSupport {
 		return new RouteBuilder() {
 			@Override
 			public void configure() {
-				from("direct:nexmotest").to("nexmo://send?apiKey=9884eb36&apiSecret=85cbdc9d&to=+393333337584").process(new Processor() {
+				from("direct:nexmotest").to("nexmo://send?apiKey=xxx&apiSecret=xxx&to=+39000000").process(new Processor() {
 					@Override
 					public void process(Exchange exchange) throws Exception {
 						log.debug("", exchange);
