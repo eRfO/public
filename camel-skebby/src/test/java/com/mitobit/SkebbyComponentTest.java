@@ -16,6 +16,8 @@
  */
 package com.mitobit;
 
+import java.net.SocketTimeoutException;
+
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.camel.builder.RouteBuilder;
@@ -27,6 +29,20 @@ public class SkebbyComponentTest extends CamelTestSupport {
 
 	@Test
 	public void testSkebby() throws Exception {
+		int retryNum = 0;
+		int maxRetry = 3;
+		Object response = null;
+		while (response == null && ++retryNum <= maxRetry) {
+			try {
+				response = null;
+			} catch (Exception ste) {
+			}
+			if (retryNum == maxRetry) {
+				System.out.println("Help");
+			}
+		}		
+		
+		
 		MockEndpoint mock = getMockEndpoint("mock:result");
 		mock.expectedMinimumMessageCount(1);
 		sendBody("direct:skebbytest", "Hello, world!");
@@ -38,7 +54,7 @@ public class SkebbyComponentTest extends CamelTestSupport {
 		return new RouteBuilder() {
 			@Override
 			public void configure() {
-				from("direct:skebbytest").to("skebby:?username=test&password=test&recipients=000000000000").process(new Processor() {
+				from("direct:skebbytest").to("skebby:?username=test&password=test&recipients=390000000000&recipients=").process(new Processor() {
 					@Override
 					public void process(Exchange exchange) throws Exception {
 						log.debug("", exchange);

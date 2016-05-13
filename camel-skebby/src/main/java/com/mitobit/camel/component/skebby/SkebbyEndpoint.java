@@ -1,6 +1,7 @@
 package com.mitobit.camel.component.skebby;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.camel.Consumer;
 import org.apache.camel.Processor;
@@ -12,6 +13,7 @@ import org.apache.camel.spi.UriEndpoint;
 import org.apache.camel.spi.UriParam;
 import org.apache.camel.spi.UriPath;
 
+import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 
@@ -46,6 +48,18 @@ public class SkebbyEndpoint extends DefaultEndpoint {
 	@UriParam
 	private String password;
 	@UriParam
+	private String senderStr;
+	@UriParam
+	private String senderNum;
+	@UriParam
+	private int maxRetry = 3;	
+	@UriParam
+	private long readTimeout = 60_000;
+	@UriParam
+	private long writeTimeout = 10_000;	
+	@UriParam
+	private long connectionTimeout = 60_000;	
+	@UriParam
 	private List<String> recipients;
 
 	public SkebbyEndpoint() {
@@ -74,9 +88,17 @@ public class SkebbyEndpoint extends DefaultEndpoint {
 		SkebbyClient client;
 		try {
 			if (retrofit == null) {
+				final OkHttpClient okHttpClient = new OkHttpClient.Builder()
+				        .readTimeout(getReadTimeout(), TimeUnit.MILLISECONDS)
+				        .writeTimeout(getWriteTimeout(), TimeUnit.MILLISECONDS)
+				        .connectTimeout(getConnectionTimeout(), TimeUnit.MILLISECONDS)
+				        .build();				
+				
 				retrofit = new Retrofit.Builder()
 					.baseUrl(buildBaseUrl())
+					.client(okHttpClient)
 					.addConverterFactory(SimpleXmlConverterFactory.create())
+					
 					.build();
 			}
 			client = retrofit.create(SkebbyClient.class);
@@ -154,6 +176,54 @@ public class SkebbyEndpoint extends DefaultEndpoint {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String getSenderStr() {
+		return senderStr;
+	}
+
+	public void setSenderStr(String senderStr) {
+		this.senderStr = senderStr;
+	}
+
+	public String getSenderNum() {
+		return senderNum;
+	}
+
+	public void setSenderNum(String senderNum) {
+		this.senderNum = senderNum;
+	}
+
+	public int getMaxRetry() {
+		return maxRetry;
+	}
+
+	public void setMaxRetry(int maxRetry) {
+		this.maxRetry = maxRetry;
+	}
+
+	public long getReadTimeout() {
+		return readTimeout;
+	}
+
+	public void setReadTimeout(long readTimeout) {
+		this.readTimeout = readTimeout;
+	}
+
+	public long getWriteTimeout() {
+		return writeTimeout;
+	}
+
+	public void setWriteTimeout(long writeTimeout) {
+		this.writeTimeout = writeTimeout;
+	}
+
+	public long getConnectionTimeout() {
+		return connectionTimeout;
+	}
+
+	public void setConnectionTimeout(long connectionTimeout) {
+		this.connectionTimeout = connectionTimeout;
 	}
 
 	public List<String> getRecipients() {

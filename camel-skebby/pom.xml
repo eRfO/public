@@ -46,6 +46,7 @@
 			<groupId>org.apache.camel</groupId>
 			<artifactId>camel-linkedin</artifactId>
 			<version>${camel.version}</version>
+			<optional>true</optional>
 		</dependency>
 		<!-- Retrofit -->
 		<dependency>

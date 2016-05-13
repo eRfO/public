@@ -1,5 +1,7 @@
 package com.mitobit.camel.component.skebby;
 
+import java.util.Arrays;
+
 /**
  * Models a Skebby request.
  * 
@@ -13,6 +15,8 @@ public class SkebbyRequest {
 	private String username;
 	
 	private String password;
+	
+	private String sender;
 	
 	private String[] recipients;
 	
@@ -57,6 +61,14 @@ public class SkebbyRequest {
 		this.password = password;
 	}
 
+	public String getSender() {
+		return sender;
+	}
+
+	public void setSender(String sender) {
+		this.sender = sender;
+	}
+
 	public String[] getRecipients() {
 		return recipients;
 	}
@@ -71,6 +83,11 @@ public class SkebbyRequest {
 
 	public void setText(String text) {
 		this.text = text;
+	}
+
+	@Override
+	public String toString() {
+		return "SkebbyRequest [method=" + method + ", sender=" + sender + ", recipients=" + Arrays.toString(recipients) + ", text=" + text + "]";
 	}
 	
 }

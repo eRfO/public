@@ -23,6 +23,8 @@ public class SkebbyResult {
 	private Response response;	
 	@Element(name = "send_sms_basic", required = false)
 	private SendSmsBasic basic;
+	@Element(name = "send_sms_classic", required = false)
+	private SendSmsClassic classic;
 
 	public String getGenerator() {
 		return generator;
@@ -63,6 +65,11 @@ public class SkebbyResult {
 	public void setBasic(SendSmsBasic basic) {
 		this.basic = basic;
 	}
+	
+	@Override
+	public String toString() {
+		return "SkebbyResult [status=" + status + ", response=" + response + ", basic=" + basic + ", classic=" + classic + "]";
+	}
 
 	public static class SendSmsBasic {
 
@@ -97,6 +104,51 @@ public class SkebbyResult {
 			this.remainingSms = remainingSms;
 		}
 
+		@Override
+		public String toString() {
+			return "Basic [response=" + response + ", status=" + status + ", remainingSms=" + remainingSms + "]";
+		}
+
+	}
+	
+	public static class SendSmsClassic {
+		
+		@Element(required = false)
+		private Response response;
+		@Element
+		private String status;
+		@Element(name = "remaining_sms", required = false)
+		private String remainingSms;
+		
+		public Response getResponse() {
+			return response;
+		}
+		
+		public void setResponse(Response response) {
+			this.response = response;
+		}
+		
+		public String getStatus() {
+			return status;
+		}
+		
+		public void setStatus(String status) {
+			this.status = status;
+		}
+		
+		public String getRemainingSms() {
+			return remainingSms;
+		}
+		
+		public void setRemainingSms(String remainingSms) {
+			this.remainingSms = remainingSms;
+		}
+
+		@Override
+		public String toString() {
+			return "Classic [response=" + response + ", status=" + status + ", remainingSms=" + remainingSms + "]";
+		}
+		
 	}
 
 	public static class Response {
@@ -121,6 +173,11 @@ public class SkebbyResult {
 
 		public void setMessage(String message) {
 			this.message = message;
+		}
+
+		@Override
+		public String toString() {
+			return "Response [code=" + code + ", message=" + message + "]";
 		}
 
 	}
